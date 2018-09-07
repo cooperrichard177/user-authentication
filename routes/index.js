@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models/user");
+var mid = require("../middleware/index");
 
 // GET /
 router.get("/", function(req, res, next) {
@@ -8,7 +9,7 @@ router.get("/", function(req, res, next) {
 });
 
 //Get /login
-router.get("/login", function(req, res, next) {
+router.get("/login", mid.loggedOut, function(req, res, next) {
   return res.render("login", { title: "Log In" });
 });
 
@@ -42,7 +43,7 @@ router.get("/contact", function(req, res, next) {
   return res.render("contact", { title: "Contact" });
 });
 
-router.get("/register", function(req, res, next) {
+router.get("/register", mid.loggedOut, function(req, res, next) {
   return res.render("register", { title: "Register" });
 });
 
@@ -86,12 +87,7 @@ router.post("/register", function(req, res, next) {
 });
 
 //GET /profile
-router.get("/profile", function(req, res, next) {
-  if (!req.session.userId) {
-    var err = new Error("Please login");
-    err.status = 401;
-    return next(err);
-  }
+router.get("/profile", mid.requiresLogin, function(req, res, next) {
   User.findById(req.session.userId).exec(function(error, user) {
     if (error) {
       return next(error);
