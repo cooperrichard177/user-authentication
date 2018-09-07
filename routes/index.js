@@ -38,6 +38,10 @@ router.get("/about", function(req, res, next) {
   return res.render("about", { title: "About" });
 });
 
+router.get("/books", mid.requiresLogin, function(req, res, next) {
+  return res.render("books", { title: "Your Books" });
+});
+
 // GET /contact
 router.get("/contact", function(req, res, next) {
   return res.render("contact", { title: "Contact" });
