@@ -1,5 +1,5 @@
 {
-  "name": "treehouse-express-auth",
+  "name": "authentication-app",
   "version": "1.0.0",
   "description": "A project for learning how to add authentication to a web application.",
   "author": "Rich Cooper",
